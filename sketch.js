@@ -1,84 +1,55 @@
-var w1, w2, w3, w4 ;
-
-var b1, b2, b3, b4 ;
-
+var speed,weight,thickness,bullet,wall,damage;
 
 function setup() {
-  createCanvas(430,400);
+  createCanvas(1000, 400);
+  bullet = createSprite(100,200,50,20);
+  wall = createSprite(900,200,30,300);
+  bullet.velocityX = 10;
+  bullet.shapeColor ="white";
+  wall.shapeColor ="brown";
+  speed = Math.floor(random(223,321));
+  weight = Math.floor(random(30,52));
+  thickness = Math.floor(random(22,83));
+}
+
+function draw() {
+  background("yellow");
+ 
+  drawSprites();
   
-   w1 = createSprite(49,8,70,15);     
-
-   w2 = createSprite(157,8,70,15);
- 
-   w3 = createSprite(260,8,70,15);
- 
-   w4 = createSprite(365,8,70,15);
- 
- 
-   b1 = createSprite(49,307,15,24);
- 
-   b2 = createSprite(157,307,15,24);
- 
-   b3 = createSprite(260,307,15,24);
+  collide(bullet,wall);
   
-   b4 = createSprite(365,307,15,24); 
- 
+  textSize(21);
+  fill("black");
+  text("Damage : < 10 then the Wall is strong",200,340);
+  text("Damage : > 10 then the Wall is weak",200,360);
+  fill("red");
+  textSize(25);
+  text("DAMAGE IS : "+Math.floor(damage),30,40);
+}
+function damages(){
+  damage = (0.5 * weight * speed *speed)/(thickness*thickness*thickness);
+  console.log(damage);
 
-      w1.shapeColor  = "white"; 
-      w2.shapeColor  = "white"; 
-      w3.shapeColor  = "white"; 
-      w4.shapeColor  = "white"; 
+  if(damage < 10 ){
+  
+    bullet.shapeColor ="lightgreen";
+  
+  }
 
+  else{
 
-      b1.shapeColor = "orange";
-      b2.shapeColor = "orange";
-      b3.shapeColor = "orange";
-      b4.shapeColor = "orange";
+    bullet.shapeColor ="red";
 
-
-       b1.velocityY = -56;     
-       b2.velocityY = -56; 
-       b3.velocityY = -56; 
-       b4.velocityY = 0-56; 
-
+  }
 
 
 }
-
-
-function draw() {
-
-  background("black");
-  
-  
-  if (b1.collide(w1)) {
-    w1.shapeColor = "lightgreen";
-  } 
- 
-  
-      if (b2.collide(w2)) {
-    w2.shapeColor = "red";
-    
-  } 
-  
- 
-
-  if (b3.collide(w3)) {
-    w3.shapeColor = "lightgreen";
-    
-  } 
-  
- 
-
-  if (b4.collide(w4)) {
-    w4.shapeColor = "lightgreen" ;
-       
-  }  
-
-
- 
-  drawSprites();
-
-
-
+function collide(object1,object2){
+  if(object2.x-object1.x===object1.width/2 + object1.width/2-10)
+    {
+      object1.velocityX = 0;
+      object2.velocityX = 0;
+      damages();
+    }
 }
